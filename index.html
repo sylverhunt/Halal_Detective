@@ -1,73 +1,1510 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b3b35">
 <title>Halal Detective | Halal Literacy Lab</title>
 <script src="https://unpkg.com/html5-qrcode"></script>
+
 <style>
-:root{--green:#0b3b35;--green2:#146b55;--mint:#dff4e9;--gold:#e9b949;--cream:#fbfaf5;--ink:#18312d;--muted:#687873;--red:#b94a48;--line:#e5eae5;--white:#fff}
-*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:linear-gradient(125deg,#082f2b,#146b55);color:white;padding:22px max(18px,calc((100% - 1120px)/2)) 28px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;gap:11px;align-items:center;font-weight:800;font-size:19px}.logo{width:44px;height:44px;border-radius:14px;background:#ffffff20;display:grid;place-items:center;font-size:24px}
-.pill{border:1px solid #ffffff55;border-radius:30px;padding:5px 12px;font-size:12px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:center;padding-top:28px}.hero h1{font-size:clamp(28px,5vw,46px);line-height:1.1;margin:0 0 12px}.hero p{color:#d7eee5;max-width:650px;margin:0 0 18px}.hero-art{background:linear-gradient(135deg,#ffffff20,#ffffff08);border:1px solid #ffffff30;border-radius:24px;padding:18px;text-align:center;font-size:68px;min-height:170px;display:grid;place-items:center}
-.wrap{max-width:1120px;margin:auto;padding:20px 18px 60px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:-2px}.stat{background:white;border:1px solid var(--line);border-radius:15px;padding:13px 16px}.stat b{display:block;font-size:18px;color:var(--green)}.stat small{color:var(--muted)}
-nav{display:flex;gap:8px;overflow:auto;padding:18px 0 12px;position:sticky;top:0;background:var(--cream);z-index:5}
-nav button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}nav button.active{background:var(--green);color:white;border-color:var(--green)}
-section.page{display:none}section.page.active{display:block}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:14px 0}.section-head h2{margin:0;font-size:25px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 5px 20px #153c3010}.card h3{margin:0 0 7px}.tag{display:inline-block;background:var(--mint);color:var(--green);border-radius:30px;padding:3px 10px;font-size:12px;font-weight:800}.btn{border:0;background:var(--green2);color:white;border-radius:12px;padding:11px 15px;font-weight:800;cursor:pointer}.btn.secondary{background:#edf4ef;color:var(--green)}.btn.gold{background:var(--gold);color:#30250b}.btn:focus,button:focus,input:focus{outline:3px solid #e9b94988;outline-offset:2px}
-.callout{background:#fff7df;border:1px solid #f0dda2;padding:13px 15px;border-radius:13px;margin:12px 0}.lesson{display:grid;grid-template-columns:64px 1fr;gap:14px;margin:12px 0}.emoji{font-size:38px;background:#f0f5ef;border-radius:15px;display:grid;place-items:center;height:64px}
-table{width:100%;border-collapse:collapse;background:white;border-radius:14px;overflow:hidden}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#eaf4ed;color:var(--green)}
-input[type=text]{width:100%;padding:12px;border:1px solid #ccd8d0;border-radius:10px;font:inherit;margin:6px 0 12px}
-.case{border-left:4px solid var(--gold)}.options{display:grid;gap:8px;margin:12px 0}.option{border:1px solid var(--line);border-radius:11px;padding:10px;cursor:pointer}.option input{margin-right:8px}.feedback{font-weight:700;margin-top:10px}.scanner-box{max-width:520px;margin:auto}.scanner{background:#102b27;border-radius:16px;padding:10px;min-height:240px}.result{overflow-wrap:anywhere;background:#eef5ef;padding:12px;border-radius:12px;margin-top:12px}
-footer{text-align:center;color:var(--muted);font-size:13px;padding:25px}
-@media(max-width:700px){.hero{grid-template-columns:1fr}.hero-art{min-height:110px;font-size:48px}.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr 1fr}.stat{padding:10px}.stat b{font-size:15px}}
+:root {
+  --green:#0b3b35;
+  --green2:#146b55;
+  --mint:#dff4e9;
+  --gold:#e9b949;
+  --cream:#fbfaf5;
+  --ink:#18312d;
+  --muted:#687873;
+  --red:#b94a48;
+  --line:#e5eae5;
+  --white:#fff;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font:15px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+}
+
+header {
+  background:linear-gradient(125deg,#082f2b,#146b55);
+  color:white;
+  padding:22px max(18px,calc((100% - 1120px)/2)) 28px;
+}
+
+.top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.brand {
+  display:flex;
+  gap:11px;
+  align-items:center;
+  font-weight:800;
+  font-size:19px;
+}
+
+.logo {
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  background:#ffffff20;
+  display:grid;
+  place-items:center;
+  font-size:24px;
+}
+
+.pill {
+  border:1px solid #ffffff55;
+  border-radius:30px;
+  padding:5px 12px;
+  font-size:12px;
+}
+
+.hero {
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:22px;
+  align-items:center;
+  padding-top:28px;
+}
+
+.hero h1 {
+  font-size:clamp(28px,5vw,46px);
+  line-height:1.1;
+  margin:0 0 12px;
+}
+
+.hero p {
+  color:#d7eee5;
+  max-width:650px;
+  margin:0 0 18px;
+}
+
+.hero-art {
+  background:linear-gradient(135deg,#ffffff20,#ffffff08);
+  border:1px solid #ffffff30;
+  border-radius:24px;
+  padding:18px;
+  text-align:center;
+  font-size:68px;
+  min-height:170px;
+  display:grid;
+  place-items:center;
+}
+
+.wrap {
+  max-width:1120px;
+  margin:auto;
+  padding:20px 18px 60px;
+}
+
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:-2px;
+}
+
+.stat {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:13px 16px;
+}
+
+.stat b {
+  display:block;
+  font-size:18px;
+  color:var(--green);
+}
+
+.stat small { color:var(--muted); }
+
+nav {
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  padding:18px 0 12px;
+  position:sticky;
+  top:0;
+  background:var(--cream);
+  z-index:5;
+}
+
+nav button {
+  white-space:nowrap;
+  border:1px solid var(--line);
+  background:white;
+  color:var(--ink);
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+nav button.active {
+  background:var(--green);
+  color:white;
+  border-color:var(--green);
+}
+
+section.page { display:none; }
+section.page.active { display:block; }
+
+.section-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:12px;
+  margin:14px 0;
+}
+
+.section-head h2 {
+  margin:0;
+  font-size:25px;
+}
+
+.muted { color:var(--muted); }
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+
+.card {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 5px 20px #153c3010;
+}
+
+.card h3 { margin:0 0 7px; }
+
+.tag {
+  display:inline-block;
+  background:var(--mint);
+  color:var(--green);
+  border-radius:30px;
+  padding:3px 10px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.btn {
+  border:0;
+  background:var(--green2);
+  color:white;
+  border-radius:12px;
+  padding:11px 15px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.btn.secondary {
+  background:#edf4ef;
+  color:var(--green);
+}
+
+.btn.gold {
+  background:var(--gold);
+  color:#30250b;
+}
+
+.btn:focus,button:focus,input:focus {
+  outline:3px solid #e9b94988;
+  outline-offset:2px;
+}
+
+.callout {
+  background:#fff7df;
+  border:1px solid #f0dda2;
+  padding:13px 15px;
+  border-radius:13px;
+  margin:12px 0;
+}
+
+.lesson {
+  display:grid;
+  grid-template-columns:64px 1fr;
+  gap:14px;
+  margin:12px 0;
+}
+
+.emoji {
+  font-size:38px;
+  background:#f0f5ef;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  height:64px;
+}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+  border-radius:14px;
+  overflow:hidden;
+}
+
+th,td {
+  text-align:left;
+  padding:11px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+}
+
+th {
+  background:#eaf4ed;
+  color:var(--green);
+}
+
+input[type=text] {
+  width:100%;
+  padding:12px;
+  border:1px solid #ccd8d0;
+  border-radius:10px;
+  font:inherit;
+  margin:6px 0 12px;
+}
+
+.case { border-left:4px solid var(--gold); }
+
+.options {
+  display:grid;
+  gap:8px;
+  margin:12px 0;
+}
+
+.option {
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:10px;
+  cursor:pointer;
+}
+
+.option input { margin-right:8px; }
+
+.feedback {
+  font-weight:700;
+  margin-top:10px;
+}
+
+.scanner-box {
+  max-width:520px;
+  margin:auto;
+}
+
+.scanner {
+  background:#102b27;
+  border-radius:16px;
+  padding:10px;
+  min-height:240px;
+}
+
+.result {
+  overflow-wrap:anywhere;
+  background:#eef5ef;
+  padding:12px;
+  border-radius:12px;
+  margin-top:12px;
+}
+
+/* CROSS-CONTAMINATION CHECKLIST */
+
+.checklist {
+  display:grid;
+  gap:12px;
+  margin:16px 0;
+}
+
+.check-item {
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#fbfdfb;
+}
+
+.check-item strong {
+  display:block;
+  color:var(--green);
+  font-size:15px;
+}
+
+.check-item p {
+  margin:6px 0 12px;
+}
+
+.check-options {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.check-options label {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:7px 11px;
+  cursor:pointer;
+}
+
+.check-options input {
+  accent-color:var(--green2);
+  margin-right:5px;
+}
+
+.check-modal {
+  position:fixed;
+  inset:0;
+  background:#071e1bd9;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:1000;
+}
+
+.check-modal.show { display:flex; }
+
+.check-modal-content {
+  width:100%;
+  max-width:440px;
+  padding:25px;
+  border-radius:20px;
+  background:white;
+  text-align:center;
+  box-shadow:0 15px 50px #0003;
+}
+
+.check-modal-content h2 { margin:0 0 10px; }
+
+.check-modal-content .status-icon {
+  font-size:48px;
+  margin-bottom:8px;
+}
+
+.check-modal-content.success h2 { color:#146b55; }
+.check-modal-content.danger h2 { color:#b94a48; }
+.check-modal-content.warning h2 { color:#a16d0a; }
+
+.check-modal-content button { margin-top:15px; }
+
+footer {
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+  padding:25px;
+}
+
+@media(max-width:700px) {
+  .hero { grid-template-columns:1fr; }
+  .hero-art { min-height:110px; font-size:48px; }
+  .grid { grid-template-columns:1fr; }
+  .stats { grid-template-columns:1fr 1fr 1fr; }
+  .stat { padding:10px; }
+  .stat b { font-size:15px; }
+}
 </style>
 </head>
+
 <body>
-<header><div class="top"><div class="brand"><div class="logo">🔎</div> HALAL DETECTIVE</div><span class="pill">INTERACTIVE MODULE • 2026</span></div>
-<div class="hero"><div><h1>Become a Young Detective.<br><span style="color:#f3ce69">Investigate Before You Choose.</span></h1><p>Learn the principles of Halalan Thayyiban, investigate critical ingredients, navigate Cambodian markets, and test your knowledge by scanning QR codes for Assemblr AR experiences.</p><button class="btn gold" onclick="go('learning')">Start Investigating →</button></div><div class="hero-art" aria-label="Food and halal inspection illustration">🥫 🥛 🍬<br>🕵️‍♀️ 🔍 🥗</div></div></header>
+
+<header>
+  <div class="top">
+    <div class="brand">
+      <div class="logo">🔎</div>
+      HALAL DETECTIVE
+    </div>
+    <span class="pill">INTERACTIVE MODULE • 2026</span>
+  </div>
+
+  <div class="hero">
+    <div>
+      <h1>
+        Become a Young Detective.<br>
+        <span style="color:#f3ce69">
+          Investigate Before You Choose.
+        </span>
+      </h1>
+      <p>
+        Learn the principles of Halalan Thayyiban, investigate
+        critical ingredients, navigate Cambodian markets, and
+        test your knowledge by scanning QR codes for Assemblr
+        AR experiences.
+      </p>
+      <button class="btn gold" onclick="go('learning')">
+        Start Investigating →
+      </button>
+    </div>
+
+    <div class="hero-art" aria-label="Food and halal inspection illustration">
+      🥫 🥛 🍬<br>
+      🕵️‍♀️ 🔍 🥗
+    </div>
+  </div>
+</header>
+
 <main class="wrap">
-<div class="stats"><div class="stat"><b>4 Missions</b><small>Step-by-step learning</small></div><div class="stat"><b>5 AR Cases</b><small>Scavenger Hunt</small></div><div class="stat"><b id="scoreTop">0 Pointsts</b><small>Assessment score</small></div></div>
-<nav><button class="active" data-page="home" onclick="go('home')">⌂ Home</button><button data-page="learning" onclick="go('learning')">📚 Learning</button><button data-page="investigation" onclick="go('investigation')">🧪 Lab</button><button data-page="market" onclick="go('market')">🛒 Khmer Market</button><button data-page="scan" onclick="go('scan')">▦ QR Scan / AR</button><button data-page="assessment" onclick="go('assessment')">🏅 Assessment</button></nav>
-<section id="home" class="page active"><div class="section-head"><div><h2>Detective Control Center</h2><div class="muted">Choose a mission and gather evidence instead of guessing.</div></div></div><div class="grid">
-<div class="card"><span class="tag">MISSION 01</span><h3>Orientation: Halal & Thayyib</h3><p>Understand the two requirements of ideal food through everyday examples.</p><button class="btn secondary" onclick="go('learning')">Open lesson</button></div>
-<div class="card"><span class="tag">MISSION 02</span><h3>Ingredient Investigation</h3><p>Explore gelatin, lard, E471, E120, and whey.</p><button class="btn secondary" onclick="go('investigation')">Examine ingredients</button></div>
-<div class="card"><span class="tag">MISSION 03</span><h3>Navigating Cambodian Markets</h3><p>Use Khmer phrases and examine cross-contamination risks.</p><button class="btn secondary" onclick="go('market')">Open glossary</button></div>
-<div class="card"><span class="tag">MISSION 04</span><h3>AR Detective Scavenger Hunt</h3><p>Scan Assemblr cards to access 3D experiences and case studies.</p><button class="btn secondary" onclick="go('scan')">Start scanning</button></div></div>
-<div class="callout"><b>Important principle:</b> This app is an educational tool, not a halal certification authority or laboratory testing device. The status of real products must be verified through labels, documentation, and the relevant certification authority.</div></section>
-<section id="learning" class="page"><div class="section-head"><div><h2>Mission 01 · Halal & Thayyib</h2><div class="muted">Discovery Learning: observe → question → gather evidence → conclude.</div></div></div>
-<div class="card"><div class="lesson"><div class="emoji">📖</div><div><h3>Learning Foundation</h3>Surah Al-Baqarah (2:168) instructs people to consume what is lawful and good (thayyib) and to avoid the ways of Satan.</div></div><div class="lesson"><div class="emoji">☪️</div><div><h3>Halal</h3>Something permitted under Islamic law. Animal-derived ingredients require verification of their origin and processing, including slaughter.</div></div><div class="lesson"><div class="emoji">🌿</div><div><h3>Thayyib</h3>Good, clean, wholesome, and safe to consume. Halal food is not necessarily thayyib if it is contaminated, spoiled, or expired.</div></div></div>
-<div class="card" style="margin-top:16px"><h3>Classification Exercise</h3><p>Based on the lesson, identify what needs to be checked in each situation.</p><table><tr><th>Scenario</th><th>Analysis guide</th></tr><tr><td>Fresh chicken, slaughtered according to Islamic requirements and refrigerated</td><td>Halal and thayyib</td></tr><tr><td>An apple washed with dirty ditch water</td><td>The ingredient may be halal, but its cleanliness is problematic</td></tr><tr><td>Pork processed under sterile conditions</td><td>Haram despite being hygienic</td></tr><tr><td>Expired milk with a sour smell</td><td>Avoid because it is not thayyib</td></tr></table></div></section>
-<section id="investigation" class="page"><div class="section-head"><div><h2>Mission 02 · Critical Ingredient Lab</h2><div class="muted">Review critical points and verification steps for each ingredient.</div></div></div><div class="grid">
-<div class="card"><h3>🧬 Gelatin</h3><p>A collagen-derived ingredient extracted from animal skin or bones. Porcine gelatin is haram; bovine gelatin requires confirmation of its source and slaughter method.</p><span class="tag">Check the source</span></div>
-<div class="card"><h3>🧈 E471</h3><p>Mono- and diglycerides may come from vegetable oils or animal fats. The code alone does not establish the source.</p><span class="tag">Critical point</span></div>
-<div class="card"><h3>🔴 E120</h3><p>Carmine/cochineal is a red colorant derived from insects. The module notes differing views; follow the guidance of the relevant authority or school of thought.</p><span class="tag">Scholarly views differ</span></div>
-<div class="card"><h3>🥛 Whey powder</h3><p>A by-product of cheese production. Check the enzyme/rennet used and verify its source.</p><span class="tag">Check processing</span></div>
-<div class="card"><h3>🐖 Lard / pork fat</h3><p>Pig fat. This ingredient must be avoided.</p><span class="tag">Haram</span></div>
-<div class="card"><h3>🧾 Labels and certificates</h3><p>Check the ingredient list, manufacturer, certificate number and validity, and issuing body. Do not determine a product’s status from packaging appearance alone.</p><span class="tag">Verify the evidence</span></div></div>
-<div class="callout">An E-number is not automatically haram. Check what the code refers to and the ingredient’s source. If information is insufficient, mark it as unverified rather than treating an assumption as fact.</div></section>
-<section id="market" class="page"><div class="section-head"><div><h2>Mission 03 · Navigating the Khmer Market</h2><div class="muted">Field glossary and cross-contamination checks.</div></div></div>
-<div class="card"><table><tr><th>Khmer term (transliteration)</th><th>Meaning</th><th>Action</th></tr><tr><td>Sach Chrouk</td><td>Pork</td><td>Avoid</td></tr><tr><td>Klarn Chrouk</td><td>Pig oil/fat (as stated in the module)</td><td>Avoid</td></tr><tr><td>Sach Ko</td><td>Beef</td><td>Verify slaughter and handling</td></tr><tr><td>Sach Moan</td><td>Chicken</td><td>Verify supplier and processing</td></tr><tr><td>Twer pi sach chrouk men?</td><td>Is this made from pork?</td><td>Ask politely</td></tr></table><h3 style="margin-top:18px">Cross-Contamination Checklist</h3><label><input type="checkbox"> Knives and cutting boards are separate</label><br><label><input type="checkbox"> Cooking oil is not reused for non-halal ingredients</label><br><label><input type="checkbox"> Plates, broth, and serving utensils are separate</label><br><label><input type="checkbox"> The seller can explain ingredient origins</label></div>
-<div class="callout">The learning module mentions the Cambodia Halal Steering Committee under the Ministry of Commerce. For decisions about real products, verify the certification body’s recognition status and the certificate’s validity directly.</div></section>
-<section id="scan" class="page"><div class="section-head"><div><h2>Mission 04 · QR Scanner for Assemblr AR</h2><div class="muted">Scan the QR code on a learning card. It may contain an Assemblr project link or case information.</div></div></div><div class="card scanner-box"><div id="reader" class="scanner"></div><p class="muted">Allow camera access. Use HTTPS or localhost so the camera can be accessed.</p><button class="btn" onclick="startScan()">Enable camera</button> <button class="btn secondary" onclick="stopScan()">Stop</button><div id="scanResult" class="result">Scan results will appear here.</div><p><label for="manual">Or paste an Assemblr link / QR content:</label><input id="manual" type="text" placeholder="https://..."></p><button class="btn secondary" onclick="openManual()">Open link</button></div>
-<div class="card" style="margin-top:16px"><h3>Preparing Assemblr Cards</h3><ol><li>Create or select a learning project in Assemblr and arrange 3D content for the five cases.</li><li>Copy the project or experience link that students can access.</li><li>Generate a QR code containing that link and print it on a case card.</li><li>Scan the QR code in this app. It will offer to open the Assemblr link.</li></ol><p class="muted">QR scanning only reads and opens a link. Image tracking and 3D display take place in Assemblr according to the project’s features and configuration; this HTML does not create them automatically.</p></div></section>
-<section id="assessment" class="page"><div class="section-head"><div><h2>Detective License · Assessment</h2><div class="muted">Five cases from the module. Select answers based on the available evidence.</div></div></div><div id="quiz" class="grid"></div><div class="card" style="margin-top:16px"><h3>Assessment Results</h3><p id="resultScore">Not graded yet.</p><button class="btn" onclick="grade()">Grade answers</button> <button class="btn secondary" onclick="resetQuiz()">Try again</button></div></section>
-</main><footer>This Apps under License of CC BY-NC 4.0 @2026· Use this in conjunction with the module; this application is not a substitute for official verification.</footer>
+
+<div class="stats">
+  <div class="stat">
+    <b>4 Missions</b>
+    <small>Step-by-step learning</small>
+  </div>
+  <div class="stat">
+    <b>5 AR Cases</b>
+    <small>Scavenger Hunt</small>
+  </div>
+  <div class="stat">
+    <b id="scoreTop">0 Points</b>
+    <small>Assessment score</small>
+  </div>
+</div>
+
+<nav>
+  <button class="active" data-page="home" onclick="go('home')">⌂ Home</button>
+  <button data-page="learning" onclick="go('learning')">📚 Learning</button>
+  <button data-page="investigation" onclick="go('investigation')">🧪 Lab</button>
+  <button data-page="market" onclick="go('market')">🛒 Khmer Market</button>
+  <button data-page="scan" onclick="go('scan')">▦ QR Scan / AR</button>
+  <button data-page="assessment" onclick="go('assessment')">🏅 Assessment</button>
+</nav>
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+  <div class="section-head">
+    <div>
+      <h2>Detective Control Center</h2>
+      <div class="muted">
+        Choose a mission and gather evidence instead of guessing.
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <span class="tag">MISSION 01</span>
+      <h3>Orientation: Halal & Thayyib</h3>
+      <p>
+        Understand the two requirements of ideal food
+        through everyday examples.
+      </p>
+      <button class="btn secondary" onclick="go('learning')">
+        Open lesson
+      </button>
+    </div>
+
+    <div class="card">
+      <span class="tag">MISSION 02</span>
+      <h3>Ingredient Investigation</h3>
+      <p>Explore gelatin, lard, E471, E120, and whey.</p>
+      <button class="btn secondary" onclick="go('investigation')">
+        Examine ingredients
+      </button>
+    </div>
+
+    <div class="card">
+      <span class="tag">MISSION 03</span>
+      <h3>Navigating Cambodian Markets</h3>
+      <p>
+        Use Khmer phrases and examine cross-contamination risks.
+      </p>
+      <button class="btn secondary" onclick="go('market')">
+        Open glossary
+      </button>
+    </div>
+
+    <div class="card">
+      <span class="tag">MISSION 04</span>
+      <h3>AR Detective Scavenger Hunt</h3>
+      <p>
+        Scan Assemblr cards to access 3D experiences
+        and case studies.
+      </p>
+      <button class="btn secondary" onclick="go('scan')">
+        Start scanning
+      </button>
+    </div>
+  </div>
+
+  <div class="callout">
+    <b>Important principle:</b>
+    This app is an educational tool, not a halal certification
+    authority or laboratory testing device. The status of real
+    products must be verified through labels, documentation,
+    and the relevant certification authority.
+  </div>
+</section>
+
+<!-- LEARNING -->
+
+<section id="learning" class="page">
+  <div class="section-head">
+    <div>
+      <h2>Mission 01 · Halal & Thayyib</h2>
+      <div class="muted">
+        Discovery Learning: observe → question →
+        gather evidence → conclude.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="lesson">
+      <div class="emoji">📖</div>
+      <div>
+        <h3>Learning Foundation</h3>
+        Surah Al-Baqarah (2:168) instructs people to consume
+        what is lawful and good (thayyib) and to avoid
+        the ways of Satan.
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="emoji">☪️</div>
+      <div>
+        <h3>Halal</h3>
+        Something permitted under Islamic law. Animal-derived
+        ingredients require verification of their origin
+        and processing, including slaughter.
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="emoji">🌿</div>
+      <div>
+        <h3>Thayyib</h3>
+        Good, clean, wholesome, and safe to consume.
+        Halal food is not necessarily thayyib if it is
+        contaminated, spoiled, or expired.
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Classification Example</h3>
+    <p>
+      Based on the lesson, identify what needs to be
+      checked in each situation.
+    </p>
+
+    <table>
+      <tr>
+        <th>Scenario</th>
+        <th>Analysis guide</th>
+      </tr>
+      <tr>
+        <td>
+          Fresh chicken, slaughtered according to Islamic
+          requirements and refrigerated
+        </td>
+        <td>Halal and thayyib</td>
+      </tr>
+      <tr>
+        <td>An apple washed with dirty ditch water</td>
+        <td>
+          The ingredient may be halal, but its cleanliness
+          is problematic
+        </td>
+      </tr>
+      <tr>
+        <td>Pork processed under sterile conditions</td>
+        <td>Haram despite being hygienic</td>
+      </tr>
+      <tr>
+        <td>Expired milk with a sour smell</td>
+        <td>Avoid because it is not thayyib</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- INVESTIGATION -->
+
+<section id="investigation" class="page">
+  <div class="section-head">
+    <div>
+      <h2>Mission 02 · Critical Ingredient Lab</h2>
+      <div class="muted">
+        Review critical points and verification steps
+        for each ingredient.
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>🧬 Gelatin</h3>
+      <p>
+        A collagen-derived ingredient extracted from animal
+        skin or bones. Porcine gelatin is haram; bovine
+        gelatin requires confirmation of its source
+        and slaughter method.
+      </p>
+      <span class="tag">Check the source</span>
+    </div>
+
+    <div class="card">
+      <h3>🧈 E471</h3>
+      <p>
+        Mono- and diglycerides may come from vegetable oils
+        or animal fats. The code alone does not establish
+        the source.
+      </p>
+      <span class="tag">Critical point</span>
+    </div>
+
+    <div class="card">
+      <h3>🔴 E120</h3>
+      <p>
+        Carmine/cochineal is a red dye derived from insects.
+        This module notes the existence of differing views
+        please follow the guidance of the relevant local authorities
+        or schools of thought.
+      </p>
+      <span class="tag">Scholarly views differ</span>
+    </div>
+
+    <div class="card">
+      <h3>🥛 Whey powder</h3>
+      <p>
+        A by-product of cheese making. Check the enzymes,
+        rennet, or ingredient sources used and verify their origins.
+      </p>
+      <span class="tag">Check processing</span>
+    </div>
+
+    <div class="card">
+      <h3>🐖 Lard / pork fat</h3>
+      <p>Pig fat/lard. This ingredient must be avoided.</p>
+      <span class="tag">Haram</span>
+    </div>
+
+    <div class="card">
+      <h3>🧾 Labels and certificates</h3>
+      <p>
+        Check the list of ingredients, the manufacturer, the halal logo,
+        the certificate number and validity period, and the issuing body.
+        Do not determine a product's status based solely on its packaging.
+      </p>
+      <span class="tag">Verify the evidence</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    An E-number is not automatically haram. Check what
+    the code refers to and the ingredient’s source.
+    If information is insufficient, mark it as unverified
+    rather than treating an assumption as fact.
+  </div>
+</section>
+
+<!-- KHMER MARKET -->
+
+<section id="market" class="page">
+  <div class="section-head">
+    <div>
+      <h2>Mission 03 · Navigating the Khmer Market</h2>
+      <div class="muted">
+        Field glossary and cross-contamination checks.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <table>
+      <tr>
+        <th>Khmer term (transliteration)</th>
+        <th>Meaning</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>Sach Chrouk</td>
+        <td>Pork</td>
+        <td>Avoid</td>
+      </tr>
+      <tr>
+        <td>Klarn Chrouk</td>
+        <td>Pig oil/fat (as stated in the module)</td>
+        <td>Avoid</td>
+      </tr>
+      <tr>
+        <td>Sach Ko</td>
+        <td>Beef</td>
+        <td>Verify slaughter and handling</td>
+      </tr>
+      <tr>
+        <td>Sach Moan</td>
+        <td>Chicken</td>
+        <td>Verify supplier and processing</td>
+      </tr>
+      <tr>
+        <td>Twer pi sach chrouk men?</td>
+        <td>Is this made from pork?</td>
+        <td>Ask politely</td>
+      </tr>
+    </table>
+
+    <h3 style="margin-top:22px">
+      Cross-Contamination Checklist
+    </h3>
+
+    <p class="muted">
+      Select the answer that best describes the food
+      preparation and handling practices you have observed.
+      Answer all 10 questions.
+    </p>
+
+    <div id="halalChecklist" class="checklist">
+
+      <div class="check-item">
+        <strong>1. Separate Knives and Cutting Boards</strong>
+        <p>
+          Are separate knives and cutting boards used
+          for halal and non-halal ingredients?
+        </p>
+        <div class="check-options">
+          <label><input type="radio" name="check1" value="yes"> Yes</label>
+          <label><input type="radio" name="check1" value="no"> No</label>
+          <label><input type="radio" name="check1" value="unknown"> Unknown</label>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <strong>2. Cooking Oil Separation</strong>
+        <p>
+          Is cooking oil kept separate and never reused
+          for non-halal ingredients?
+        </p>
+        <div class="check-options">
+          <label><input type="radio" name="check2" value="yes"> Yes</label>
+          <label><input type="radio" name="check2" value="no"> No</label>
+          <label><input type="radio" name="check2" value="unknown"> Unknown</label>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <strong>3. Separate Plates and Utensils</strong>
+        <p>
+          Are plates, serving utensils, and food containers
+          kept separate from those used for non-halal food?
+        </p>
+        <div class="check-options">
+          <label><input type="radio" name="check3" value="yes"> Yes</label>
+          <label><input type="radio" name="check3" value="no"> No</label>
+          <label><input type="radio" name="check3" value="unknown"> Unknown</label>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <strong>4. Ingredient Origin Transparency</strong>
+        <p>
+          Can the seller explain the origin of the
+          ingredients used in the food?
+        </p>
+        <div class="check-options">
+          <label><input type="radio" name="check4" value="yes"> Yes</label>
+          <label><input type="radio" name="check4" value="no"> No</label>
+          <label><input type="radio" name="check4" value="unknown"> Unknown</label>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <strong>5. Separate Food Preparation Areas</strong>
+        <p>
+          Are halal and non-halal foods prepared in separate
+          areas or with verified separation procedures?
+        </p>
+        <div class="check-options">
+          <label><input type="radio" name="check5" value="yes"> Yes</label>
+          <label><input type="radio" name="check5" value="no"> No</label>
+          <label><input type="radio" name="check5" value="unknown"> Unknown</label>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <strong>6. Clean and Dedicated Equipment</strong>
+        <p>
+          Are cooking equipment and food-contact surfaces
+          properly cleaned, with separation maintained
+          where required?
+        </p>
+        <div class="check-options">
+          <label><input type="radio" name="check6" value="yes"> Yes</label>
+          <label><input type="radio" name="check6" value="no"> No</label>
+          <label><input type="radio" name="check6" value="unknown"> Unknown</label>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <strong>7. Safe Ingredient Storage</strong>
+        <p>
+          Are halal ingredients stored separately from
+          non-halal ingredients to prevent contact or leakage?
+        </p>
+        <div class="check-options">
+          <label><input type="radio" name="check7" value="yes"> Yes</label>
+          <label><input type="radio" name="check7" value="no"> No</label>
+          <label><input type="radio" name="check7" value="unknown"> Unknown</label>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <strong>8. Verified Meat and Poultry Sources</strong>
+        <p>
+          Can the seller provide reliable information or
+          documentation confirming the halal status of
+          meat and poultry?
+        </p>
+        <div class="check-options">
+          <label><input type="radio" name="check8" value="yes"> Yes</label>
+          <label><input type="radio" name="check8" value="no"> No</label>
+          <label><input type="radio" name="check8" value="unknown"> Unknown</label>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <strong>9. Separate Serving and Display</strong>
+        <p>
+          Are halal foods displayed and served without
+          direct contact with non-halal foods?
+        </p>
+        <div class="check-options">
+          <label><input type="radio" name="check9" value="yes"> Yes</label>
+          <label><input type="radio" name="check9" value="no"> No</label>
+          <label><input type="radio" name="check9" value="unknown"> Unknown</label>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <strong>10. Ingredient and Process Verification</strong>
+        <p>
+          Can the seller provide credible evidence about
+          ingredients, preparation methods, and relevant
+          halal certification, where applicable?
+        </p>
+        <div class="check-options">
+          <label><input type="radio" name="check10" value="yes"> Yes</label>
+          <label><input type="radio" name="check10" value="no"> No</label>
+          <label><input type="radio" name="check10" value="unknown"> Unknown</label>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="btn" onclick="evaluateHalalChecklist()">
+      Evaluate Halal Status
+    </button>
+
+    <button class="btn secondary" onclick="resetHalalChecklist()">
+      Reset Checklist
+    </button>
+
+    <div class="callout">
+      <b>Important:</b>
+      This checklist is an educational screening tool.
+      A negative answer identifies a potential problem
+      or a failed criterion; it does not automatically
+      establish that the food itself is haram.
+      Official halal status requires appropriate
+      verification.
+    </div>
+  </div>
+
+  <div class="callout">
+    For decisions about real products, verify the
+    certification body's recognition status and the
+    certificate's validity directly.
+  </div>
+</section>
+
+<!-- QR SCANNER -->
+
+<section id="scan" class="page">
+  <div class="section-head">
+    <div>
+      <h2>Mission 04 · QR Scanner for Assemblr AR</h2>
+      <div class="muted">
+        Scan the QR code on a learning card. It may contain
+        an Assemblr project link or case information.
+      </div>
+    </div>
+  </div>
+
+  <div class="card scanner-box">
+    <div id="reader" class="scanner"></div>
+
+    <p class="muted">
+      Allow camera access. Use HTTPS or localhost
+      so the camera can be accessed.
+    </p>
+
+    <button class="btn" onclick="startScan()">
+      Enable camera
+    </button>
+
+    <button class="btn secondary" onclick="stopScan()">
+      Stop
+    </button>
+
+    <div id="scanResult" class="result">
+      Scan results will appear here.
+    </div>
+
+    <p>
+      <label for="manual">
+        Or paste an Assemblr link / QR content:
+      </label>
+      <input id="manual" type="text"
+        placeholder="https://...">
+    </p>
+
+    <button class="btn secondary" onclick="openManual()">
+      Open link
+    </button>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Preparing Assemblr Cards</h3>
+    <ol>
+      <li>
+        Create or select a learning project in Assemblr
+        and arrange 3D content for the five cases.
+      </li>
+      <li>
+        Copy the project or experience link that
+        students can access.
+      </li>
+      <li>
+        Generate a QR code containing that link
+        and print it on a case card.
+      </li>
+      <li>
+        Scan the QR code in this app. It will offer
+        to open the Assemblr link.
+      </li>
+    </ol>
+
+    <p class="muted">
+      Image tracking and select 3D display take place in.
+    </p>
+  </div>
+</section>
+
+<!-- ASSESSMENT -->
+
+<section id="assessment" class="page">
+  <div class="section-head">
+    <div>
+      <h2>Detective License · Assessment</h2>
+      <div class="muted">
+        Five cases from the module. Select answers
+        based on the available evidence.
+      </div>
+    </div>
+  </div>
+
+  <div id="quiz" class="grid"></div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Assessment Results</h3>
+    <p id="resultScore">Not graded yet.</p>
+
+    <button class="btn" onclick="grade()">
+      Grade answers
+    </button>
+
+    <button class="btn secondary" onclick="resetQuiz()">
+      Try again
+    </button>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  This app is provided under License of CC BY-NC 4.0 ©2026.
+  This application is not a substitute for official verification.
+</footer>
+
+<!-- CHECKLIST RESULT POP-UP -->
+
+<div id="halalResultModal" class="check-modal"
+     role="presentation">
+  <div class="check-modal-content"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="halalResultTitle">
+
+    <div class="status-icon" id="halalResultIcon">🔎</div>
+
+    <h2 id="halalResultTitle">Evaluation Result</h2>
+
+    <strong id="halalResultStatus"></strong>
+
+    <p id="halalResultMessage"></p>
+
+    <p id="halalResultDetails" class="muted"></p>
+
+    <button class="btn" onclick="closeHalalPopup()">
+      Close
+    </button>
+  </div>
+</div>
+
 <script>
-const pages=['home','learning','investigation','market','scan','assessment'];
-function go(id){document.querySelectorAll('section.page').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='assessment'&&!document.querySelector('#quiz').children.length)renderQuiz();window.scrollTo({top:0,behavior:'smooth'})}
-let scanner=null;
-function startScan(){if(!window.Html5Qrcode){document.getElementById('scanResult').textContent='The scanning library could not be loaded. Check your internet connection.';return}if(scanner)return;scanner=new Html5Qrcode('reader');scanner.start({facingMode:'environment'},{fps:10,qrbox:{width:240,height:240}},decoded=>{document.getElementById('scanResult').innerHTML='QR code detected: <b></b><br>';document.querySelector('#scanResult b').textContent=decoded;stopScan();if(/^https?:\/\//i.test(decoded)){let a=document.createElement('button');a.className='btn';a.textContent='Open Assemblr experience';a.onclick=()=>window.open(decoded,'_blank','noopener');document.getElementById('scanResult').appendChild(a)}},()=>{}).catch(e=>{document.getElementById('scanResult').textContent='The camera could not be started: '+e;scanner=null})}
-function stopScan(){if(scanner){let s=scanner;scanner=null;s.stop().then(()=>s.clear()).catch(()=>{})}}
-function openManual(){let u=document.getElementById('manual').value.trim();if(!/^https?:\/\//i.test(u)){alert('Enter a complete URL beginning with https:// or http://');return}window.open(u,'_blank','noopener')}
-const cases=[
-{q:'Case 1 · Local Instant Noodles',desc:'The ingredients list includes Klarn Chrouk.',opts:['Permissible because the main ingredient is wheat flour.','Not permissible because the term means pig fat.'],a:1,why:'The module identifies Klarn Chrouk as pig oil/fat.'},
-{q:'Case 2 · Imported Jelly Candy',desc:'The label lists Porcine Gelatin.',opts:['Halal because it is fruit-shaped candy.','Haram because “porcine” indicates a pig-derived source.'],a:1,why:'Porcine gelatin is derived from pigs.'},
-{q:'Case 3 · Street-Fried Chicken',desc:'Chicken was purchased from a general market; halal slaughter is not confirmed.',opts:['Permissible because it is fried in fresh vegetable oil.','Unverified; the slaughter method must be confirmed.'],a:1,why:'The animal species alone is insufficient; the slaughter process must be verified.'},
-{q:'Case 4 · Biscuits with E471',desc:'There is no halal logo and the source of E471 is not specified.',opts:['Automatically halal because it contains milk and chocolate.','Verify the source of E471; do not conclude from the code alone.'],a:1,why:'E471 can be plant- or animal-derived, so its source needs checking.'},
-{q:'Case 5 · International Halal Certification Logo',desc:'An imported product displays a foreign Halal certification body’s logo.',opts:['Check whether the Halal certification body and certificate are recognized and valid.','All foreign logos are automatically accepted everywhere.'],a:0,why:'Verify the logo’s validity and recognition; do not assume every logo is automatically accepted.'}
+/* NAVIGATION */
+
+const pages = [
+  'home',
+  'learning',
+  'investigation',
+  'market',
+  'scan',
+  'assessment'
 ];
-function renderQuiz(){document.getElementById('quiz').innerHTML=cases.map((c,i)=>`<div class="card case"><span class="tag">CASE ${i+1}</span><h3>${c.q}</h3><p>${c.desc}</p><div class="options">${c.opts.map((o,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}">${o}</label>`).join('')}</div><div id="fb${i}" class="feedback"></div></div>`).join('')}
-function grade(){let score=0;cases.forEach((c,i)=>{let v=document.querySelector(`input[name=q${i}]:checked`);let fb=document.getElementById('fb'+i);if(v&&Number(v.value)===c.a){score+=20;fb.textContent='Correct. '+c.why;fb.style.color='#146b55'}else{fb.textContent='Not quite. '+c.why;fb.style.color='#b94a48'}});document.getElementById('resultScore').textContent=`Score: ${score}/100 · ${score>=80?'Young Detective License achieved!':'Review the evidence and try again.'}`;document.getElementById('scoreTop').textContent=score+' Points'}
-function resetQuiz(){document.querySelectorAll('#quiz input').forEach(x=>x.checked=false);document.querySelectorAll('.feedback').forEach(x=>x.textContent='');document.getElementById('resultScore').textContent='Not graded yet.';document.getElementById('scoreTop').textContent='0 Pointsts'}
-</script></body></html>
+
+function go(id) {
+  document.querySelectorAll('section.page')
+    .forEach(s => s.classList.toggle('active', s.id === id));
+
+  document.querySelectorAll('nav button')
+    .forEach(b => b.classList.toggle(
+      'active', b.dataset.page === id
+    ));
+
+  if (
+    id === 'assessment' &&
+    !document.querySelector('#quiz').children.length
+  ) {
+    renderQuiz();
+  }
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* CROSS-CONTAMINATION CHECKLIST */
+
+function evaluateHalalChecklist() {
+  const answers = [];
+
+  for (let i = 1; i <= 10; i++) {
+    const selected = document.querySelector(
+      `input[name="check${i}"]:checked`
+    );
+
+    if (!selected) {
+      alert(
+        `Please answer all 10 checklist questions. ` +
+        `Question ${i} is incomplete.`
+      );
+
+      const first = document.querySelector(
+        `input[name="check${i}"]`
+      );
+
+      first.closest('.check-item').scrollIntoView({
+        behavior:'smooth',
+        block:'center'
+      });
+
+      return;
+    }
+
+    answers.push(selected.value);
+  }
+
+  const noCount = answers.filter(
+    a => a === 'no'
+  ).length;
+
+  const unknownCount = answers.filter(
+    a => a === 'unknown'
+  ).length;
+
+  let status;
+  let title;
+  let icon;
+  let message;
+  let details;
+  let style;
+
+  if (noCount > 0) {
+    status = 'Haram indicator detected';
+    title = 'Potential Haram or Non-Compliant Practice';
+    icon = '⚠️';
+    style = 'danger';
+
+    message =
+      'At least one critical handling or verification ' +
+      'requirement was not met.';
+
+    details =
+      `${noCount} negative response(s) and ` +
+      `${unknownCount} unknown response(s). ` +
+      'Review the identified risks and verify the actual ' +
+      'ingredients and handling procedures.';
+
+  } else if (unknownCount > 0) {
+    status = 'Unverified';
+    title = 'Halal Status Cannot Be Confirmed';
+    icon = '🔎';
+    style = 'warning';
+
+    message =
+      'Some important information is missing or ' +
+      'has not been verified.';
+
+    details =
+      `${unknownCount} unknown response(s). ` +
+      'Ask the seller for evidence and check the relevant ' +
+      'halal documentation before making a decision.';
+
+  } else {
+    status = 'Halal indicators verified';
+    title = 'All Checklist Indicators Passed';
+    icon = '✅';
+    style = 'success';
+
+    message =
+      'All 10 checklist answers indicate that the ' +
+      'observed practices meet the listed criteria.';
+
+    details =
+      'This is a positive screening result, not official ' +
+      'halal certification. Verify ingredients, slaughter ' +
+      'requirements, and certification independently.';
+  }
+
+  showHalalPopup(
+    status,
+    title,
+    icon,
+    message,
+    details,
+    style
+  );
+}
+
+function showHalalPopup(
+  status,
+  title,
+  icon,
+  message,
+  details,
+  style
+) {
+  const modal = document.getElementById(
+    'halalResultModal'
+  );
+
+  const content = modal.querySelector(
+    '.check-modal-content'
+  );
+
+  content.className =
+    'check-modal-content ' + style;
+
+  document.getElementById(
+    'halalResultIcon'
+  ).textContent = icon;
+
+  document.getElementById(
+    'halalResultTitle'
+  ).textContent = title;
+
+  document.getElementById(
+    'halalResultStatus'
+  ).textContent = status;
+
+  document.getElementById(
+    'halalResultMessage'
+  ).textContent = message;
+
+  document.getElementById(
+    'halalResultDetails'
+  ).textContent = details;
+
+  modal.classList.add('show');
+}
+
+function closeHalalPopup() {
+  const modal = document.getElementById(
+    'halalResultModal'
+  );
+
+  modal.classList.remove('show');
+}
+
+function resetHalalChecklist() {
+  document.querySelectorAll(
+    '#halalChecklist input[type="radio"]'
+  ).forEach(input => {
+    input.checked = false;
+  });
+
+  closeHalalPopup();
+}
+
+/* CLOSE POP-UP WHEN CLICKING OUTSIDE */
+
+document.getElementById(
+  'halalResultModal'
+).addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeHalalPopup();
+  }
+});
+
+/* QR SCANNER */
+
+let scanner = null;
+
+function startScan() {
+  if (!window.Html5Qrcode) {
+    document.getElementById(
+      'scanResult'
+    ).textContent =
+      'The scanning library could not be loaded. ' +
+      'Check your internet connection.';
+    return;
+  }
+
+  if (scanner) return;
+
+  scanner = new Html5Qrcode('reader');
+
+  scanner.start(
+    {facingMode:'environment'},
+    {
+      fps:10,
+      qrbox:{width:240,height:240}
+    },
+    decoded => {
+      const result = document.getElementById(
+        'scanResult'
+      );
+
+      result.innerHTML =
+        'QR code detected: <b></b><br>';
+
+      result.querySelector('b').textContent =
+        decoded;
+
+      stopScan();
+
+      if (/^https?:\/\//i.test(decoded)) {
+        const a = document.createElement('button');
+
+        a.className = 'btn';
+        a.textContent =
+          'Open Assemblr experience';
+
+        a.onclick = () => {
+          window.open(
+            decoded,
+            '_blank',
+            'noopener'
+          );
+        };
+
+        result.appendChild(a);
+      }
+    },
+    () => {}
+  ).catch(e => {
+    document.getElementById(
+      'scanResult'
+    ).textContent =
+      'The camera could not be started: ' + e;
+
+    scanner = null;
+  });
+}
+
+function stopScan() {
+  if (scanner) {
+    const s = scanner;
+    scanner = null;
+
+    s.stop()
+      .then(() => s.clear())
+      .catch(() => {});
+  }
+}
+
+function openManual() {
+  const u = document.getElementById(
+    'manual'
+  ).value.trim();
+
+  if (!/^https?:\/\//i.test(u)) {
+    alert(
+      'Enter a complete URL beginning with ' +
+      'https:// or http://'
+    );
+    return;
+  }
+
+  window.open(u, '_blank', 'noopener');
+}
+
+/* ASSESSMENT CASES */
+
+const cases = [
+  {
+    q:'Case 1 · Local Instant Noodles',
+    desc:'The ingredients list includes Klarn Chrouk.',
+    opts:[
+      'Permissible because the main ingredient is wheat flour.',
+      'Not permissible because the term means pig fat.'
+    ],
+    a:1,
+    why:'The module identifies Klarn Chrouk as pig oil/fat.'
+  },
+  {
+    q:'Case 2 · Imported Jelly Candy',
+    desc:'The label lists Porcine Gelatin.',
+    opts:[
+      'Halal because it is fruit-shaped candy.',
+      'Haram because “porcine” indicates a pig-derived source.'
+    ],
+    a:1,
+    why:'Porcine gelatin is derived from pigs.'
+  },
+  {
+    q:'Case 3 · Street-Fried Chicken',
+    desc:'Chicken was purchased from a general market; halal slaughter is not confirmed.',
+    opts:[
+      'Permissible because it is fried in fresh vegetable oil.',
+      'Unverified; the slaughter method must be confirmed.'
+    ],
+    a:1,
+    why:'The animal species alone is insufficient; the slaughter process must be verified.'
+  },
+  {
+    q:'Case 4 · Biscuits with E471',
+    desc:'There is no halal logo and the source of E471 is not specified.',
+    opts:[
+      'Automatically halal because it contains milk and chocolate.',
+      'Verify the source of E471; do not conclude from the code alone.'
+    ],
+    a:1,
+    why:'E471 can be plant- or animal-derived, so its source needs checking.'
+  },
+  {
+    q:'Case 5 · International Halal Certification Logo',
+    desc:'An imported product displays a foreign Halal certification body’s logo.',
+    opts:[
+      'Check whether the Halal certification body and certificate are recognized and valid.',
+      'All foreign logos are automatically accepted everywhere.'
+    ],
+    a:0,
+    why:'Verify the logo’s validity and recognition; do not assume every logo is automatically accepted.'
+  }
+];
+
+/* RENDER QUIZ */
+
+function renderQuiz() {
+  document.getElementById('quiz').innerHTML =
+    cases.map((c,i) => `
+      <div class="card case">
+        <span class="tag">CASE ${i+1}</span>
+        <h3>${c.q}</h3>
+        <p>${c.desc}</p>
+
+        <div class="options">
+          ${c.opts.map((o,j) => `
+            <label class="option">
+              <input
+                type="radio"
+                name="q${i}"
+                value="${j}">
+              ${o}
+            </label>
+          `).join('')}
+        </div>
+
+        <div id="fb${i}" class="feedback"></div>
+      </div>
+    `).join('');
+}
+
+function grade() {
+  let score = 0;
+
+  cases.forEach((c,i) => {
+    const v = document.querySelector(
+      `input[name="q${i}"]:checked`
+    );
+
+    const fb = document.getElementById(
+      'fb' + i
+    );
+
+    if (v && Number(v.value) === c.a) {
+      score += 20;
+      fb.textContent =
+        'Correct. ' + c.why;
+      fb.style.color = '#146b55';
+    } else {
+      fb.textContent =
+        'Not quite. ' + c.why;
+      fb.style.color = '#b94a48';
+    }
+  });
+
+  document.getElementById(
+    'resultScore'
+  ).textContent =
+    `Score: ${score}/100 · ` +
+    `${
+      score >= 80
+        ? 'Young Detective License achieved!'
+        : 'Review the evidence and try again.'
+    }`;
+
+  document.getElementById(
+    'scoreTop'
+  ).textContent = score + ' Points';
+}
+
+function resetQuiz() {
+  document.querySelectorAll(
+    '#quiz input'
+  ).forEach(x => {
+    x.checked = false;
+  });
+
+  document.querySelectorAll(
+    '.feedback'
+  ).forEach(x => {
+    x.textContent = '';
+  });
+
+  document.getElementById(
+    'resultScore'
+  ).textContent = 'Not graded yet.';
+
+  document.getElementById(
+    'scoreTop'
+  ).textContent = '0 Points';
+}
+</script>
+
+</body>
+</html>
